@@ -2,7 +2,7 @@ package de.zalando.beard.parser
 
 import de.zalando.beard.BeardLexer
 import org.antlr.v4.runtime.misc.Interval
-import org.antlr.v4.runtime.{CharStream, LexerNoViableAltException}
+import org.antlr.v4.runtime.{ CharStream, LexerNoViableAltException }
 
 class CustomBeardLexer(input: CharStream) extends BeardLexer(input) {
 

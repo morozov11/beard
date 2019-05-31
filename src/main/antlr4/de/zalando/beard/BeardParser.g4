@@ -95,7 +95,8 @@ locals [scala.collection.immutable.List<Statement> result]
     ;
 
 ifInterpolation
-    : LL IF compoundIdentifier RR
+locals [IdWithValue result]
+    : LL IF compoundIdentifier EQ attrValue RR
     ;
 
 elseInterpolation

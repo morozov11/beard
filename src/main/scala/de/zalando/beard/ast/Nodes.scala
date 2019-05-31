@@ -14,7 +14,7 @@ case class AttrInterpolation(identifier: Identifier, attributes: Seq[Attribute] 
 case class IdInterpolation(
   identifier: CompoundIdentifier,
   filters: Seq[FilterNode] = Seq.empty)
-    extends Interpolation
+  extends Interpolation
 
 case class YieldStatement() extends Statement
 
@@ -26,7 +26,11 @@ case class BlockStatement(identifier: Identifier, statements: Seq[Statement] = S
 
 case class ContentForStatement(identifier: Identifier, statements: Seq[Statement] = Seq.empty) extends Statement
 
-case class IfStatement(condition: CompoundIdentifier, ifStatements: Seq[Statement], elseStatements: Seq[Statement] = Seq.empty) extends Statement
+case class IfStatement(
+  condition: CompoundIdentifier,
+  conditionValue: String,
+  ifStatements: Seq[Statement],
+  elseStatements: Seq[Statement] = Seq.empty) extends Statement
 
 case class UnlessStatement(condition: CompoundIdentifier, unlessStatements: Seq[Statement], elseStatements: Seq[Statement] = Seq.empty) extends Statement
 
@@ -40,6 +44,8 @@ sealed trait Attribute {
   def stringValue: Option[String]
   def identifier: Option[CompoundIdentifier]
 }
+
+case class IdWithValue(id: CompoundIdentifier, attrValue: String)
 
 case class AttributeWithValue(key: String, value: String) extends Attribute {
   def identifier = None

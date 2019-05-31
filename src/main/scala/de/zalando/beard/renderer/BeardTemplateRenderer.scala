@@ -3,7 +3,7 @@ package de.zalando.beard.renderer
 import java.util.Locale
 import de.zalando.beard.ast._
 import de.zalando.beard.filter.implementations.TranslationFilter
-import de.zalando.beard.filter.{DefaultFilterResolver, Filter, FilterNotFound, FilterResolver}
+import de.zalando.beard.filter.{ DefaultFilterResolver, Filter, FilterNotFound, FilterResolver }
 
 import scala.collection.immutable.Seq
 
@@ -11,9 +11,9 @@ import scala.collection.immutable.Seq
  * @author dpersa
  */
 class BeardTemplateRenderer(
-    templateCompiler: TemplateCompiler,
-    filters: Seq[Filter] = Seq(),
-    filterResolver: FilterResolver = DefaultFilterResolver()) {
+  templateCompiler: TemplateCompiler,
+  filters: Seq[Filter] = Seq(),
+  filterResolver: FilterResolver = DefaultFilterResolver()) {
 
   def render[T](
     template: BeardTemplate,
@@ -22,8 +22,7 @@ class BeardTemplateRenderer(
     layout: Option[BeardTemplate] = None,
     escapeStrategy: EscapeStrategy = EscapeStrategy.vanilla,
     locale: Locale = Locale.getDefault,
-    resourceBundleName: String = ""
-  ): T = {
+    resourceBundleName: String = ""): T = {
 
     layout match {
       case Some(layoutTemplate) =>
@@ -53,12 +52,12 @@ class BeardTemplateRenderer(
   }
 
   private def stringRepresentation(value: Any, escapeStrategy: EscapeStrategy): String = value match {
-    case s: String      => escapeStrategy.escape(s) //shortcut the match if it's already a string.
-    case null           => ""
-    case Some(str)      => stringRepresentation(str, escapeStrategy)
-    case None           => ""
+    case s: String => escapeStrategy.escape(s) //shortcut the match if it's already a string.
+    case null => ""
+    case Some(str) => stringRepresentation(str, escapeStrategy)
+    case None => ""
     case i: Iterable[_] => i map (e => stringRepresentation(e, escapeStrategy)) mkString ","
-    case other          => escapeStrategy.escape(other.toString)
+    case other => escapeStrategy.escape(other.toString)
   }
 
   private def renderStatement[T](
@@ -74,7 +73,7 @@ class BeardTemplateRenderer(
     case IdInterpolation(identifier, filters) => {
       val identifierValue = ContextResolver.resolve(identifier, context) match {
         case Some(value) => value
-        case _           => throw new IllegalStateException(s"The identifier ${identifier} was not resolved")
+        case _ => throw new IllegalStateException(s"The identifier ${identifier} was not resolved")
       }
 
       val filteredIdentifierValue = filter(identifierValue, filters, context, locale, resourceBundleName)
@@ -104,7 +103,7 @@ class BeardTemplateRenderer(
           templateIteratorIdentifier = templateIterator.identifier,
           templateIndexIdentifier = templateIndex match {
             case Some(index) => Option(index.identifier)
-            case None        => None
+            case None => None
           },
           collectionContext = currentIteratorContext,
           currentIndex = index, collectionOfContexts = collectionOfContexts)
@@ -122,10 +121,13 @@ class BeardTemplateRenderer(
     // extends should be ignored at render time
     case ExtendsStatement(template) => ()
 
-    case YieldStatement()           => renderInternal(yieldedStatement, renderResult, context, escapeStrategy, locale, resourceBundleName)
+    case YieldStatement() => renderInternal(yieldedStatement, renderResult, context, escapeStrategy, locale, resourceBundleName)
 
-    case IfStatement(condition, ifStatements, elseStatements) =>
-      val result = resolveCondition(context, condition)
+    case IfStatement(condition, conditionValue, ifStatements, elseStatements) =>
+      val result = ContextResolver.resolve(condition, context) match {
+        case Some(value) ⇒ value.toString == conditionValue
+        case None ⇒ false
+      }
       for (statement <- if (result) ifStatements else elseStatements) {
         renderStatement(statement, context, renderResult, yieldedStatement, escapeStrategy, locale, resourceBundleName)
       }
@@ -158,9 +160,9 @@ class BeardTemplateRenderer(
 
         var parameters = filterNode.parameters.map {
           case AttributeWithIdentifier(key, id) => (key, ContextResolver.resolve(id, context))
-          case AttributeWithValue(key, value)   => (key, Option(value))
+          case AttributeWithValue(key, value) => (key, Option(value))
         }.filter(_._2.isDefined)
-          .map{ case (k, v) => (k, v.get) }
+          .map { case (k, v) => (k, v.get) }
           .toMap
 
         val filterIdentifier = filterNode.identifier.identifier
@@ -172,13 +174,13 @@ class BeardTemplateRenderer(
             filter
           }
           case Some(filter) => filter
-          case None         => throw FilterNotFound(filterIdentifier)
+          case None => throw FilterNotFound(filterIdentifier)
         }
 
         prevValue match { // check which filter needs to be applied.
-          case m: Map[_, _]   => filter.applyMap(m, parameters) // map's arity is different from the iterable.
+          case m: Map[_, _] => filter.applyMap(m, parameters) // map's arity is different from the iterable.
           case i: Iterable[_] => filter.applyIterable(i, parameters)
-          case other          => filter.apply(other.toString, parameters)
+          case other => filter.apply(other.toString, parameters)
         }
       }
     }
@@ -186,13 +188,13 @@ class BeardTemplateRenderer(
 
   private def resolveCondition[T](context: Map[String, Any], condition: CompoundIdentifier): Boolean = {
     ContextResolver.resolve(condition, context) match {
-      case Some(result: Boolean)     => result
+      case Some(result: Boolean) => result
       case Some(result: Iterable[_]) => result.nonEmpty // includes Map as well
-      case Some(result: Option[_])   => result.nonEmpty
-      case Some(result: String)      => result.nonEmpty
-      case Some(null)                => false
-      case Some(other)               => throw new IllegalStateException(s"A condition should be of type Boolean or { def nonEmpty: Boolean } but it has ${other.getClass} type")
-      case None                      => false
+      case Some(result: Option[_]) => result.nonEmpty
+      case Some(result: String) => result.nonEmpty
+      case Some(null) => false
+      case Some(other) => throw new IllegalStateException(s"A condition should be of type Boolean or { def nonEmpty: Boolean } but it has ${other.getClass} type")
+      case None => false
     }
   }
 }

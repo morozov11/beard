@@ -239,48 +239,53 @@ class BeardTemplateParserSpec extends FunSpec with Matchers {
 
   describe("if statement") {
     it("should return a BeardTemplate containing a simple if statement") {
-      BeardTemplateParser("hello{{ if user.isCool }}hello{{ /if}}end") should
+      BeardTemplateParser("hello{{ if user.isCool == \"test\" }}hello{{ /if}}end") should
         be(BeardTemplate(Seq(Text("hello"), IfStatement(
           CompoundIdentifier("user", Seq("isCool")),
+          "test",
           Seq(Text("hello"))),
           Text("end"))))
     }
 
     it("should return a BeardTemplate containing a simple if-else statement") {
-      BeardTemplateParser("block1{{ if user.isCool }}block2{{ else }}block3{{/if}}block4") should
+      BeardTemplateParser("block1{{ if user.isCool == \"test\" }}block2{{ else }}block3{{/if}}block4") should
         be(BeardTemplate(Seq(
           Text("block1"),
           IfStatement(
             CompoundIdentifier("user", Seq("isCool")),
+            "test",
             Seq(Text("block2")), Seq(Text("block3"))), Text("block4"))))
     }
 
     it("should return a BeardTemplate containing nested if statement") {
-      BeardTemplateParser("hello{{ if user.isCool }}block1{{ if user.isNice }}block2{{/if}}block3{{ /if }}end") should
+      BeardTemplateParser("hello{{ if user.isCool == \"test\" }}block1{{ if user.isNice == \"test2\" }}block2{{/if}}block3{{ /if }}end") should
         be(BeardTemplate(Seq(
           Text("hello"),
-          IfStatement(CompoundIdentifier("user", Seq("isCool")), Seq(
+          IfStatement(CompoundIdentifier("user", Seq("isCool")), "test", Seq(
             Text("block1"),
             IfStatement(
               CompoundIdentifier("user", Seq("isNice")),
+              "test2",
               Seq(Text("block2"))),
             Text("block3"))),
           Text("end"))))
     }
 
     it("should return a BeardTemplate containing deeper nested if statement") {
-      BeardTemplateParser("hello{{if user.isCool}}block1{{if cool}}block2{{/if}}block3{{else}}{{if user.isNice}}block4{{else}}block5{{/if}}{{/if}}end") should
+      BeardTemplateParser("hello{{if user.isCool == \"test\"}}block1{{if cool == \"test2\"}}block2{{/if}}block3{{else}}{{if user.isNice == \"test3\"}}block4{{else}}block5{{/if}}{{/if}}end") should
         be(BeardTemplate(Seq(
           Text("hello"),
           IfStatement(
             CompoundIdentifier("user", Seq("isCool")),
+            "test",
             Seq(
               Text("block1"),
-              IfStatement(CompoundIdentifier("cool"), Seq(Text("block2"))),
+              IfStatement(CompoundIdentifier("cool"), "test2", Seq(Text("block2"))),
               Text("block3")),
             Seq(
               IfStatement(
                 CompoundIdentifier("user", Seq("isNice")),
+                "test3",
                 Seq(Text("block4")),
                 Seq(Text("block5"))))),
           Text("end"))))
@@ -490,6 +495,7 @@ class BeardTemplateParserSpec extends FunSpec with Matchers {
           NewLine(2),
           IfStatement(
             CompoundIdentifier("usersExist"),
+            "test",
             List(
               White(4),
               Text("<div>No"),
@@ -507,6 +513,7 @@ class BeardTemplateParserSpec extends FunSpec with Matchers {
                   IdInterpolation(CompoundIdentifier("user", List("name"))),
                   IfStatement(
                     CompoundIdentifier("user", Seq("isLast")),
+                    "test",
                     List(Text(",")), List()),
                   RenderStatement("user-details", List(
                     AttributeWithIdentifier("user", CompoundIdentifier("user", List())),

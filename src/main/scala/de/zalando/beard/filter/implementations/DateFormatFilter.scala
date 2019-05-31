@@ -1,6 +1,6 @@
 package de.zalando.beard.filter.implementations
 
-import java.time.{ZoneId, LocalDateTime, LocalDate, OffsetDateTime, Instant}
+import java.time.{ ZoneId, LocalDateTime, LocalDate, OffsetDateTime, Instant }
 import java.time.format.DateTimeFormatter
 
 import de.zalando.beard.filter._
@@ -30,14 +30,14 @@ class DateFormatFilter extends Filter {
         resolveDateFormatting(value, dateTimeFormatter)
       }
       case Some(thing) => throw WrongParameterTypeException("format", "String")
-      case None        => throw ParameterMissingException("format")
+      case None => throw ParameterMissingException("format")
     }
 
   def resolveDateFormatting(value: String, formatOut: DateTimeFormatter): String = {
     // All formatters supported by DateTimeFormatter may be added in a form:
     //  """REGEX""" -> "FORMATTER"
     // Grouping is not allowed: '(', ')' chars must be escaped, if used
-    val datePatterns: Map[String, String] = Map (
+    val datePatterns: Map[String, String] = Map(
       // 981173106
       """\d{9,10}""" -> "EPOCH",
       // 981173106987
@@ -77,8 +77,7 @@ class DateFormatFilter extends Filter {
       // 3-2-2001
       """\d-\d-\d{4}""" -> "d-M-yyyy",
       // 04:05:06
-      """\d\d:\d\d:\d\d""" -> "HH:mm:ss"
-    )
+      """\d\d:\d\d:\d\d""" -> "HH:mm:ss")
 
     val pattern = new Regex(datePatterns.keys.mkString("^((", ")|(", "))$"))
     val a = pattern.findFirstMatchIn(value)
@@ -88,13 +87,13 @@ class DateFormatFilter extends Filter {
       val formatIn = datePatterns.slice(patternIndex - 1, patternIndex).values.mkString
 
       return formatIn match {
-        case "EPOCH"                => getFormatFromEpoch(value, formatOut)
-        case "EPOCH_MILLI"          => getFormatFromMillis(value, formatOut)
-        case "ISO_INSTANT"          => getFormatFromInstant(value, formatOut)
-        case "ISO_LOCAL_DATE_TIME"  => getFormatFromLocal(value, formatOut)
+        case "EPOCH" => getFormatFromEpoch(value, formatOut)
+        case "EPOCH_MILLI" => getFormatFromMillis(value, formatOut)
+        case "ISO_INSTANT" => getFormatFromInstant(value, formatOut)
+        case "ISO_LOCAL_DATE_TIME" => getFormatFromLocal(value, formatOut)
         case "ISO_OFFSET_DATE_TIME" => getFormatFromOffset(value, formatOut)
-        case "ISO_OFFSET_DATE"      => getFormatFromOffsetDate(value, formatOut)
-        case _                      => getFormatFromPattern(value, formatIn, formatOut)
+        case "ISO_OFFSET_DATE" => getFormatFromOffsetDate(value, formatOut)
+        case _ => getFormatFromPattern(value, formatIn, formatOut)
       }
     }
 

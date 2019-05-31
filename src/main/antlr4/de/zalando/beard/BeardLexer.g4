@@ -38,6 +38,7 @@ mode INSIDE_INTERPOLATION;
 
     FOR: 'for';
     IN: 'in';
+    EQ: '==';
 
     IDENTIFIER
         : LETTER LETTER_OR_DIGIT*

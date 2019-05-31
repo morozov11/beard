@@ -8,12 +8,12 @@
 
 <p>Hello world</p>
 
-{{if usersExist}}
+{{if usersExist == "test"}}
     <div>No users</div>
 {{else}}
     <div class="users">
     {{ for user in users }}
-        {{user.name}}{{if user.isLast}},{{/if}}
+        {{user.name}}{{if user.isLast == "true"}},{{/if}}
         {{render "user-details" user=user class="default"}}
     {{/ for}}
     </div>

@@ -32,7 +32,7 @@ object ForContextFactory {
   private[renderer] def handleIndexContext(forIterationContext: ForIterationContext, newContext: Map[String, Any]): Map[String, Any] = {
     forIterationContext.templateIndexIdentifier match {
       case Some(identifier) => newContext.updated(identifier, forIterationContext.currentIndex)
-      case None             => newContext
+      case None => newContext
     }
   }
 }

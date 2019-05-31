@@ -68,8 +68,9 @@ class BeardTemplateListener extends BeardParserBaseListener {
     val ifSpaceStatements = ctx.ifSpace.asScala.toList.map(_.result)
 
     val condition = ctx.ifInterpolation().compoundIdentifier().result
+    val conditionValue = ctx.ifInterpolation().attrValue().result
     val statements: Seq[Statement] = ctx.statement().asScala.flatMap(st => st.result).toList
-    ctx.result = startingSpaceStatements ++ Seq(IfStatement(condition, statements ++ ifSpaceStatements))
+    ctx.result = startingSpaceStatements ++ Seq(IfStatement(condition, conditionValue, statements ++ ifSpaceStatements))
   }
 
   override def exitIfElseStatement(ctx: IfElseStatementContext) = {
@@ -78,9 +79,10 @@ class BeardTemplateListener extends BeardParserBaseListener {
     val elseSpaceStatements = ctx.elseSpace.asScala.toList.map(_.result)
 
     val condition = ctx.ifInterpolation().compoundIdentifier().result
+    val conditionValue = ctx.ifInterpolation().attrValue().result
     val ifStatements = ctx.ifStatements.asScala.flatMap(st => st.result).toList
     val elseStatements = ctx.elseStatements.asScala.flatMap(st => st.result).toList
-    ctx.result = startingSpaceStatements ++ Seq(IfStatement(condition, ifStatements ++ ifSpaceStatements, elseStatements ++ elseSpaceStatements))
+    ctx.result = startingSpaceStatements ++ Seq(IfStatement(condition, conditionValue, ifStatements ++ ifSpaceStatements, elseStatements ++ elseSpaceStatements))
   }
 
   override def exitUnlessOnlyStatement(ctx: UnlessOnlyStatementContext) = {

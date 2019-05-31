@@ -4,7 +4,7 @@ import de.zalando.beard.ast._
 import de.zalando.beard.parser.BeardTemplateParser
 import scala.annotation.tailrec
 import scala.collection.immutable.Seq
-import scala.util.{Success, Failure, Try}
+import scala.util.{ Success, Failure, Try }
 
 /**
  * @author dpersa
@@ -22,7 +22,7 @@ class CustomizableTemplateCompiler(
   templateLoader: TemplateLoader = new ClasspathTemplateLoader(),
   templateCache: BeardTemplateCache = new BeardTemplateCache(),
   templateParser: BeardTemplateParser = new BeardTemplateParser())
-    extends TemplateCompiler {
+  extends TemplateCompiler {
 
   def compile(
     templateName: TemplateName,
@@ -83,7 +83,7 @@ class CustomizableTemplateCompiler(
     mergedStatements: Seq[Statement] = Seq.empty,
     existingTexts: Seq[HasText] = Seq.empty): Seq[Statement] = statements match {
 
-    case Nil                     => mergedStatements ++ concatTextsSeq(existingTexts)
+    case Nil => mergedStatements ++ concatTextsSeq(existingTexts)
     case (head: HasText) :: tail => concatTexts(tail, mergedStatements, existingTexts :+ head)
     case (head: ForStatement) :: tail => {
       val concatTextsForStatement = head.copy(statements = concatTextsRec(head.statements))
@@ -163,7 +163,7 @@ class CustomizableTemplateCompiler(
       case renderStatement @ RenderStatement(templateName, Seq()) =>
         templateCache.get(TemplateName(templateName)) match {
           case Some(renderedTemplate) => renderedTemplate.statements
-          case None                   => Seq(renderStatement)
+          case None => Seq(renderStatement)
         }
       case statement => Seq(statement)
     }

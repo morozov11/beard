@@ -1,9 +1,9 @@
 package de.zalando.beard.filter
 
-import de.zalando.beard.filter.implementations.{DateFormatFilter, TranslationFilter}
+import de.zalando.beard.filter.implementations.{ DateFormatFilter, TranslationFilter }
 import org.slf4j.LoggerFactory
 
-import scala.collection.immutable.{Map, Seq, Set}
+import scala.collection.immutable.{ Map, Seq, Set }
 
 /**
  * @author dpersa

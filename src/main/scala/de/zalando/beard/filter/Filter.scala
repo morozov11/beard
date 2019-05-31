@@ -1,7 +1,7 @@
 package de.zalando.beard.filter
 
 import java.net.URLEncoder
-import java.text.{DecimalFormat, DecimalFormatSymbols, NumberFormat}
+import java.text.{ DecimalFormat, DecimalFormatSymbols, NumberFormat }
 
 import scala.annotation.tailrec
 import scala.collection.immutable.Map
@@ -22,7 +22,7 @@ trait Filter {
    * because of how tuple are defined in scala, Map[String, String] is not a subtype of Iterable[String].
    */
   def applyMap(value: Map[_, _], parameters: Map[String, Any] = Map()): Map[String, String] =
-    value.map{ case (k, v) => (k.toString, apply(v.toString, parameters)) }
+    value.map { case (k, v) => (k.toString, apply(v.toString, parameters)) }
 }
 
 class FilterException(message: String) extends RuntimeException(message)
@@ -70,7 +70,7 @@ class NumberFilter extends Filter {
         formatter.format(number)
       }
       case Some(thing) => throw WrongParameterTypeException("format", "String")
-      case _           => NumberFormat.getNumberInstance.format(number)
+      case _ => NumberFormat.getNumberInstance.format(number)
     }
   }
 }
@@ -89,14 +89,14 @@ class CurrencyFilter extends Filter {
         Option(symbol)
       }
       case Some(thing) => throw WrongParameterTypeException("symbol", "String")
-      case _           => None
+      case _ => None
     }
     val formatter = parameters.get("format") match {
       case Some(format: String) => {
         new DecimalFormat(format)
       }
       case Some(thing) => throw WrongParameterTypeException("format", "String")
-      case _           => NumberFormat.getCurrencyInstance().asInstanceOf[DecimalFormat]
+      case _ => NumberFormat.getCurrencyInstance().asInstanceOf[DecimalFormat]
     }
     if (currency.isDefined) {
       val dfs = new DecimalFormatSymbols()

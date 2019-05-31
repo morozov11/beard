@@ -1,7 +1,7 @@
 package de.zalando.beard.filter.implementations
 
-import java.util.{Locale, ResourceBundle}
-import de.zalando.beard.filter.{Filter, ParameterMissingException}
+import java.util.{ Locale, ResourceBundle }
+import de.zalando.beard.filter.{ Filter, ParameterMissingException }
 
 /**
  * @author rweyand
@@ -21,7 +21,7 @@ class TranslationFilter() extends Filter {
         fetchStringFromBundle(Locale.forLanguageTag(locale), bundleName, value)
       }
       case (None, _) => throw new ParameterMissingException("resource bundle missing")
-      case (_, _)    => throw new ParameterMissingException("paramters for translation missing")
+      case (_, _) => throw new ParameterMissingException("paramters for translation missing")
     }
   }
 

@@ -1,5 +1,6 @@
+import com.simplytyped.Antlr4Plugin
 import com.typesafe.sbt.SbtScalariform.ScalariformKeys
-
+import scalariform.formatter.preferences._
 import scalariform.formatter.preferences.{AlignSingleLineCaseStatements, DanglingCloseParenthesis, DoubleIndentClassDeclaration, Preserve, PreserveSpaceBeforeArguments, SpacesAroundMultiImports}
 
 name          := "beard"
@@ -7,14 +8,12 @@ organization  := "de.zalando"
 version       := "0.2.1-SNAPSHOT"
 licenses      += ("Apache-2.0", url("http://www.apache.org/licenses/"))
 
-scalaVersion := "2.12.0"
+scalaVersion := "2.12.8"
 scalacOptions := Seq("-unchecked", "-feature", "-deprecation", "-encoding", "utf8")
 
-val antlrVersion = "4.5.2"
+val antlrVersion = "4.7.2"
 
-crossScalaVersions := Seq(scalaVersion.value, "2.11.8")
-
-antlr4Settings
+enablePlugins(Antlr4Plugin)
 
 antlr4GenListener in Antlr4 := true
 
@@ -45,18 +44,6 @@ libraryDependencies ++= {
 }
 
 
-net.virtualvoid.sbt.graph.Plugin.graphSettings
-
-scalariformSettings
-ScalariformKeys.preferences := ScalariformKeys.preferences.value
-  .setPreference(AlignSingleLineCaseStatements, true)
-  .setPreference(AlignSingleLineCaseStatements.MaxArrowIndent, 100)
-  .setPreference(PreserveSpaceBeforeArguments, true)
-  .setPreference(DanglingCloseParenthesis, Preserve)
-  .setPreference(DoubleIndentClassDeclaration, true)
-  .setPreference(SpacesAroundMultiImports, false)
-
-// testFrameworks += new TestFramework("org.scalameter.ScalaMeterFramework")
 
 publishMavenStyle       := true
 bintrayOrganization     := Some("zalando")

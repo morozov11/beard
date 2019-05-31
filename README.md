@@ -4,6 +4,12 @@
 
 Beard is a logic-less templating engine written in Scala and inspired by [Mustache](https://mustache.github.io/). You can use it out-of-the-box; see the [Requirements list](#requirements) below. 
 
+## Fork of Zalando beard with modified IF statement render:  
+   
+     {{if form1.field1 == "test"}}
+        blabla
+     {{/if}}
+
 What makes Beard powerful:
 
   - **Streaming**. As soon as you need to render something, you can stream it to the browser. This provides high user-perceived performance.
@@ -22,43 +28,13 @@ Here's a code snippet to show you how simply Beard can parse templates:
 	{{ the.content }}
   </body>
 </html>
-```
+``` 
 
 ## Requirements
 
-- Scala 2.11 or 2.12
+- Scala 2.12
 - a package manager like sbt or Maven
 
-## Installing
-
-If you're using sbt, add this line to your build.sbt file:
-
-    libraryDependencies += "de.zalando" %% "beard" % "0.2.0"
-
-    resolvers ++= Seq(
-      "zalando-maven" at "https://dl.bintray.com/zalando/maven"
-    )
-
-If you're using Maven, run this:
-
-    <repositories>
-        <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>bintray-maven</id>
-            <name>bintray</name>
-            <url>https://dl.bintray.com/zalando/maven</url>
-        </repository>
-    </repositories>
-    
-    <dependency>
-        <groupId>de.zalando</groupId>
-        <artifactId>beard_2.12</artifactId>
-        <version>0.2.0</version>
-    </dependency>
- 
-Binaries are available from [bintray](https://bintray.com/zalando/maven/beard/0.2.0)
 
 ## Additional Documentation
 

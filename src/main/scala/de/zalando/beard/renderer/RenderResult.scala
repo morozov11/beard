@@ -27,7 +27,7 @@ case class StringWriterRenderResult() extends RenderResult[StringWriter] {
 }
 
 case class MonifuRenderResult()
-    extends RenderResult[Observable[String]] {
+  extends RenderResult[Observable[String]] {
 
   val subject = ReplaySubject[Observable[String]]()
 
