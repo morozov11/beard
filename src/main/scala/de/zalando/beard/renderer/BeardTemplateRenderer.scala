@@ -126,7 +126,7 @@ class BeardTemplateRenderer(
     case IfStatement(condition, conditionValue, ifStatements, elseStatements) =>
       val result = ContextResolver.resolve(condition, context) match {
         case Some(value) ⇒ value.toString == conditionValue
-        case None ⇒ false
+        case None ⇒ conditionValue == ""
       }
       for (statement <- if (result) ifStatements else elseStatements) {
         renderStatement(statement, context, renderResult, yieldedStatement, escapeStrategy, locale, resourceBundleName)

@@ -183,6 +183,7 @@ locals [AttributeWithIdentifier result]
 attrValue
 locals [String result]
     : START_ATTR_VALUE ATTR_TEXT END_ATTR_VALUE
+    | START_ATTR_VALUE END_ATTR_VALUE
     ;
 
 compoundIdentifier

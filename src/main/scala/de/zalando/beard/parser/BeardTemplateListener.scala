@@ -3,8 +3,10 @@ package de.zalando.beard.parser
 import de.zalando.beard.BeardParser._
 import de.zalando.beard.BeardParserBaseListener
 import de.zalando.beard.ast._
+
 import scala.collection.immutable.Seq
 import scala.collection.JavaConverters._
+import scala.util.Try
 
 class BeardTemplateListener extends BeardParserBaseListener {
 
@@ -35,7 +37,9 @@ class BeardTemplateListener extends BeardParserBaseListener {
     ctx.result = FilterNode(ctx.identifier().result, parameters)
   }
 
-  override def exitAttrValue(ctx: AttrValueContext) = ctx.result = ctx.ATTR_TEXT().getText
+  override def exitAttrValue(ctx: AttrValueContext) = ctx.result = {
+    Try { ctx.ATTR_TEXT().getText }.getOrElse("")
+  }
 
   override def exitAttribute(ctx: AttributeContext) = {
     val attributes = Option(ctx.attributeWithIdentifier()).map(_.result).toSeq ++ Option(ctx.attributeWithValue()).map(_.result).toSeq
