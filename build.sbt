@@ -32,7 +32,6 @@ libraryDependencies ++= {
     "org.scala-lang.modules"      %% "scala-xml"                            % "1.0.6",
     "io.monix"                    %% "monix"                                % "2.1.0",
     "org.slf4j"                    % "slf4j-api"                            % "1.7.7",
-    "ch.qos.logback"               % "logback-classic"                      % "1.1.7",
     "org.scalatest"               %% "scalatest"                            % "3.0.1"          % "test",
     "com.mitchellbosecke"          % "pebble"                               % "1.6.0"          % "test",
     "org.freemarker"               % "freemarker"                           % "2.3.23"         % "test",
