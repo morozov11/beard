@@ -29,17 +29,17 @@ libraryDependencies ++= {
                                                                               exclude("org.antlr", "ST4")
                                                                               exclude("org.antlr", "antlr-runtime"),
     "org.scala-lang"               % "scala-reflect"                        % scalaVersion.value,
-    "org.scala-lang.modules"      %% "scala-xml"                            % "1.0.6",
-    "io.monix"                    %% "monix"                                % "2.1.0",
+    "org.scala-lang.modules"      %% "scala-xml"                            % "2.0.0-M1",
+    "io.monix"                    %% "monix"                                % "3.1.0",
     "org.slf4j"                    % "slf4j-api"                            % "1.7.7",
     "ch.qos.logback"               % "logback-classic"                      % "1.1.7",
-    "org.scalatest"               %% "scalatest"                            % "3.0.1"          % "test",
+    "org.scalatest"               %% "scalatest"                            % "3.2.0-M2"          % "test",
     "com.mitchellbosecke"          % "pebble"                               % "1.6.0"          % "test",
     "org.freemarker"               % "freemarker"                           % "2.3.23"         % "test",
     "com.github.spullara.mustache.java"   % "compiler"                      % "0.9.1"          % "test",
     "com.github.jknack"            % "handlebars"                           % "2.2.2"          % "test",
     "de.neuland-bfi"               % "jade4j"                               % "0.4.0"          % "test",
-    "com.storm-enroute"           %% "scalameter"                           % "0.8.2"          % "test"
+    "com.storm-enroute"           %% "scalameter"                           % "0.19"          % "test"
   )
 }
 
