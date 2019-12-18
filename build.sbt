@@ -43,7 +43,5 @@ libraryDependencies ++= {
   )
 }
 
-
-
 publishMavenStyle       := true
 bintrayOrganization     := Some("zalando")
