@@ -5,10 +5,12 @@ import scalariform.formatter.preferences.{AlignSingleLineCaseStatements, Danglin
 
 name          := "beard"
 organization  := "jellical"
-version       := "0.2.2-sevts"
+version       := "0.2.3-sevts"
 licenses      += ("Apache-2.0", url("http://www.apache.org/licenses/"))
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.13.1"
+crossScalaVersions := Seq("2.12.8")
+
 scalacOptions := Seq("-unchecked", "-feature", "-deprecation", "-encoding", "utf8")
 
 val antlrVersion = "4.7.2"
