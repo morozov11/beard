@@ -4,7 +4,7 @@ import scalariform.formatter.preferences._
 import scalariform.formatter.preferences.{AlignSingleLineCaseStatements, DanglingCloseParenthesis, Preserve, PreserveSpaceBeforeArguments, SpacesAroundMultiImports}
 
 name          := "beard"
-organization  := "jellical"
+organization  := "a5000"
 version       := "0.2.3-sevts"
 licenses      += ("Apache-2.0", url("http://www.apache.org/licenses/"))
 
@@ -46,6 +46,9 @@ libraryDependencies ++= {
 }
 
 publishMavenStyle       := true
-bintrayOrganization     := None
-bintrayRepository := "beard"
-bintrayPackage := "beard"
+
+resolvers += "Nexus" at "http://test.accredcenter.ru:8077/repository/maven-central/"
+credentials += Credentials("Sonatype Nexus Repository Manager", "test.accredcenter.ru", "admin", "xxx")
+publishTo := Some("Default Role Realm" at "")
+
+

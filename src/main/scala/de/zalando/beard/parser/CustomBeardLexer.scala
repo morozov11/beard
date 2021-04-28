@@ -27,7 +27,6 @@ class CustomBeardLexer(input: CharStream) extends BeardLexer(input) {
     val lineOfCode = _input
       .getText(Interval.of(lineStart, lineEnd))
       .lines
-      .next
 
     val highlight = "^".padTo(_tokenStartCharPositionInLine + 1, " ").reverse.mkString
 
